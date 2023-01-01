@@ -12,6 +12,23 @@ use const Cerbero\Dto\PARTIAL;
  * @property string $courierCode
  * @property string $orderNumber
  * @property string $customerEmail
+ * @property string $originCountryIso2
+ * @property string $destinationCountryIso2
+ * @property string $customerName
+ * @property string $customerSms
+ * @property string $title
+ * @property string $logisticsChannel
+ * @property string $orderId
+ * @property string $orderDate
+ * @property string $trackingCourierAccount
+ * @property string $trackingPostalCode
+ * @property string $trackingOriginCountry
+ * @property string $trackingDestinationCountry
+ * @property string $trackingShipDate
+ * @property string $trackingKey
+ * @property string $language
+ * @property string $note
+ * @property int $autoCorrect = 0
  */
 class TrackingData extends Dto
 {

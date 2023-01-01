@@ -2,13 +2,17 @@
 
 namespace Anvari182\TrackingMore;
 
+use Anvari182\TrackingMore\Concerns\ProcessResponse;
+use Anvari182\TrackingMore\Data\TrackingData;
 use Anvari182\TrackingMore\Exceptions\MissingArgumentException;
 use Exception;
 use Illuminate\Http\Client\PendingRequest;
-use Illuminate\Support\Collection;
+use Illuminate\Http\Client\Response;
 
 class TrackingMore
 {
+    use ProcessResponse;
+
     protected const COURIER_PATH = 'couriers';
 
     protected const TRACKING_PATH = 'trackings';
@@ -37,29 +41,49 @@ class TrackingMore
     /**
      * @throws Exception
      */
-    public function getAllCourier(): Collection
+    public function createTracking(TrackingData $data): array
     {
+        /** @var Response $response */
+        $response = $this->client->post(self::TRACKING_PATH . '/create', $data->toArray());
+
+        if ($response->failed()) {
+            throw new Exception($response->toException()->getMessage());
+        }
+
+        $this->processMeta($response);
+
+        return $this->getResponseData($response);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getAllCourier(): array
+    {
+        /** @var Response $response */
         $response = $this->client->get(self::COURIER_PATH . '/all');
 
         if ($response->failed()) {
             throw new Exception($response->toException()->getMessage());
         }
 
-        return $response->collect();
+        $this->processMeta($response);
+
+        return $this->getResponseData($response, 'couriers');
     }
 
     /**
      * @throws Exception
      */
-    public function detect(string $trackingNumber): Collection
+    public function detectCourier(string $trackingNumber): array
     {
+        /** @var Response $response */
         $response = $this->client->post(self::COURIER_PATH . '/detect', ['tracking_number' => $trackingNumber]);
 
         if ($response->failed()) {
             throw new Exception($response->toException()->getMessage());
         }
 
-        return $response->collect();
+        return $this->getResponseData($response);
     }
-
 }

@@ -7,7 +7,9 @@
         "illuminate/support": "^9.45"
     },
     "require-dev": {
+        "cerbero/laravel-dto": "^2.2",
         "guzzlehttp/guzzle": "^7.5",
+        "nunomaduro/collision": "^6.3",
         "orchestra/testbench": "^7.17",
         "pestphp/pest": "^1.22",
         "phpstan/phpstan": "^1.9",
@@ -31,7 +33,8 @@
         }
     ],
     "scripts": {
-        "analyse": "./vendor/bin/phpstan analyse"
+        "analyse": "./vendor/bin/phpstan analyse",
+        "test": "./vendor/bin/pest"
     },
     "config": {
         "sort-packages": true,

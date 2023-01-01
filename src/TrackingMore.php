@@ -4,6 +4,7 @@ namespace Anvari182\TrackingMore;
 
 use Anvari182\TrackingMore\Concerns\ProcessResponse;
 use Anvari182\TrackingMore\Data\TrackingData;
+use Anvari182\TrackingMore\Exceptions\EmptyResponseException;
 use Anvari182\TrackingMore\Exceptions\MissingArgumentException;
 use Exception;
 use Illuminate\Http\Client\PendingRequest;
@@ -85,5 +86,40 @@ class TrackingMore
         }
 
         return $this->getResponseData($response);
+    }
+
+    /**
+     * @param Response $response
+     * @return void
+     * @throws EmptyResponseException
+     * @throws Exception
+     */
+    protected function processMeta(Response $response): void
+    {
+        $meta = $response->collect('meta');
+
+        if ($meta->isEmpty()) {
+            throw new EmptyResponseException;
+        }
+
+        if (!$this->isSuccessful($meta->get('code'))) {
+            throw new Exception($meta['message'] ?? 'TrackingMore request failed.');
+        }
+    }
+
+    /**
+     * @param Response $response
+     * @param string $key
+     * @return array
+     */
+    protected function getResponseData(Response $response, string $key = 'data'): array
+    {
+        $data = $response->collect($key);
+
+        if ($data->isEmpty()) {
+            return [];
+        }
+
+        return $data->toArray();
     }
 }

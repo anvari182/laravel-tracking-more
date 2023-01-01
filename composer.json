@@ -8,6 +8,7 @@
     },
     "require-dev": {
         "cerbero/laravel-dto": "^2.2",
+        "friendsofphp/php-cs-fixer": "^3.13",
         "guzzlehttp/guzzle": "^7.5",
         "nunomaduro/collision": "^6.3",
         "orchestra/testbench": "^7.17",
@@ -34,7 +35,8 @@
     ],
     "scripts": {
         "analyse": "./vendor/bin/phpstan analyse",
-        "test": "./vendor/bin/pest"
+        "test": "./vendor/bin/pest",
+        "fix": "./vendor/bin/php-cs-fixer fix src"
     },
     "config": {
         "sort-packages": true,

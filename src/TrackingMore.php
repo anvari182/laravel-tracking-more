@@ -99,7 +99,7 @@ class TrackingMore
         $meta = $response->collect('meta');
 
         if ($meta->isEmpty()) {
-            throw new EmptyResponseException;
+            throw new EmptyResponseException();
         }
 
         if (!$this->isSuccessful($meta->get('code'))) {

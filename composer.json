@@ -3,9 +3,11 @@
     "description": "A Laravel package for TrackingMore.",
     "type": "library",
     "require": {
+        "php": "^8.0",
         "illuminate/support": "^9.45"
     },
     "require-dev": {
+        "guzzlehttp/guzzle": "^7.5",
         "orchestra/testbench": "^7.17",
         "pestphp/pest": "^1.22",
         "phpunit/phpunit": "^9.5"
@@ -13,12 +15,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Anvari182\\LaravelTrackingMore\\": "src/"
+            "Anvari182\\TrackingMore\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Anvari182\\LaravelTrackingMore\\Tests\\": "tests/"
+            "Anvari182\\TrackingMore\\Tests\\": "tests/"
         }
     },
     "authors": [
@@ -28,6 +30,7 @@
         }
     ],
     "config": {
+        "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
@@ -35,8 +38,13 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Anvari182\\LaravelTrackingMore\\LaravelTrackingMoreServiceProvider"
-            ]
+                "TrackingMoreServiceProvider"
+            ],
+            "aliases": {
+                "TrackingMore": "Anvari182\\LaravelTrackingMore\\Facades\\TrackingMore"
+            }
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

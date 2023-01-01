@@ -15,8 +15,4 @@
             <directory suffix=".php">./src</directory>
         </include>
     </coverage>
-    <php>
-        <env name="TRACKING_MORE_API_KEY" value="y6lf9x4t-oygx-5tl4-zlbm-9i4edcpqgbuw"/>
-        <env name="TRACKING_MORE_BASE_URL" value="https://api.trackingmore.com/v4/"/>
-    </php>
 </phpunit>

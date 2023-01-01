@@ -2,43 +2,64 @@
 
 namespace Anvari182\TrackingMore;
 
-use Anvari182\TrackingMore\Requests\CourierRequest;
-use Anvari182\TrackingMore\Requests\TrackingRequest;
+use Anvari182\TrackingMore\Exceptions\MissingArgumentException;
+use Exception;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Support\Collection;
 
 class TrackingMore
 {
+    protected const COURIER_PATH = 'couriers';
+
+    protected const TRACKING_PATH = 'trackings';
+
     /**
-     * @param Factory $factory
+     * @throws MissingArgumentException
      */
-    public function __construct(private Factory $factory)
-    {
+    public function __construct(
+        protected PendingRequest $client,
+        protected string $baseUrl,
+        protected string $apiKey
+    ) {
+        if (empty($this->baseUrl)) {
+            throw new MissingArgumentException('Base URL is missing.');
+        }
+
+        if (empty($this->apiKey)) {
+            throw new MissingArgumentException('API key is missing.');
+        }
+
+        $this->client->baseUrl($this->baseUrl);
+
+        $this->client->withHeaders(['Tracking-Api-Key' => $this->apiKey]);
     }
 
     /**
-     * Get TrackingRequest instance
-     *
-     * @return TrackingRequest
+     * @throws Exception
      */
-    public function tracking(): TrackingRequest
+    public function getAllCourier(): Collection
     {
-        return $this->factory->getTracking();
+        $response = $this->client->get(self::COURIER_PATH . '/all');
+
+        if ($response->failed()) {
+            throw new Exception($response->toException()->getMessage());
+        }
+
+        return $response->collect();
     }
 
     /**
-     * Get CourierRequest instance
-     *
-     * @return CourierRequest
+     * @throws Exception
      */
-    public function couriers(): CourierRequest
+    public function detect(string $trackingNumber): Collection
     {
-        return $this->factory->getCourier();
+        $response = $this->client->post(self::COURIER_PATH . '/detect', ['tracking_number' => $trackingNumber]);
+
+        if ($response->failed()) {
+            throw new Exception($response->toException()->getMessage());
+        }
+
+        return $response->collect();
     }
 
-    /**
-     * @return Factory
-     */
-    public function getFactory(): Factory
-    {
-        return $this->factory;
-    }
 }

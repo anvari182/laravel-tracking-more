@@ -10,6 +10,7 @@
         "guzzlehttp/guzzle": "^7.5",
         "orchestra/testbench": "^7.17",
         "pestphp/pest": "^1.22",
+        "phpstan/phpstan": "^1.9",
         "phpunit/phpunit": "^9.5"
     },
     "license": "MIT",
@@ -29,6 +30,9 @@
             "email": "anvari182@gmail.com"
         }
     ],
+    "scripts": {
+        "analyse": "./vendor/bin/phpstan analyse"
+    },
     "config": {
         "sort-packages": true,
         "allow-plugins": {

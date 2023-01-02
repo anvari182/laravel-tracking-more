@@ -1,6 +1,12 @@
 {
     "name": "anvari182/laravel-tracking-more",
-    "description": "A Laravel package for TrackingMore.",
+    "description": "A Laravel package for using TrackingMore API.",
+    "keywords": [
+        "trackingMore",
+        "tracking-more",
+        "laravel-tracking-more",
+        "laravel"
+    ],
     "type": "library",
     "require": {
         "php": "^8.0",

@@ -14,15 +14,14 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app): array
     {
         return [
-            TrackingMoreServiceProvider::class
+            TrackingMoreServiceProvider::class,
         ];
     }
 
     protected function getPackageAliases($app)
     {
         return [
-            'TrackingMore' => 'Anvari182\TrackingMore\Facades\TrackingMore'
+            'TrackingMore' => 'Anvari182\TrackingMore\Facades\TrackingMore',
         ];
     }
-
 }

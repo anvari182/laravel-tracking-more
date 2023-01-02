@@ -2,10 +2,9 @@
 
 namespace Anvari182\TrackingMore\Data;
 
-use Cerbero\LaravelDto\Dto;
-
 use const Cerbero\Dto\IGNORE_UNKNOWN_PROPERTIES;
 use const Cerbero\Dto\PARTIAL;
+use Cerbero\LaravelDto\Dto;
 
 /**
  * @property string $trackingNumber

@@ -5,7 +5,7 @@ namespace Anvari182\TrackingMore\Concerns;
 trait ProcessResponse
 {
     /**
-     * @param string|null $code
+     * @param  string|null  $code
      * @return bool
      */
     public function isSuccessful(?string $code): bool

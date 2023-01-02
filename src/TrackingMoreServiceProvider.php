@@ -9,7 +9,7 @@ class TrackingMoreServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/trackingmore.php', 'trackingmore');
+        $this->mergeConfigFrom(__DIR__.'/../config/trackingmore.php', 'trackingmore');
 
         $this->app->bind(TrackingMore::class, function () {
             return new TrackingMore(
@@ -25,7 +25,7 @@ class TrackingMoreServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes(
                 [
-                    __DIR__ . '/../config/trackingmore.php' => config_path('trackingmore.php'),
+                    __DIR__.'/../config/trackingmore.php' => config_path('trackingmore.php'),
                 ],
                 'config'
             );

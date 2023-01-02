@@ -45,7 +45,7 @@ class TrackingMore
     public function createTracking(TrackingData $data): array
     {
         /** @var Response $response */
-        $response = $this->client->post(self::TRACKING_PATH . '/create', $data->toArray());
+        $response = $this->client->post(self::TRACKING_PATH.'/create', $data->toArray());
 
         if ($response->failed()) {
             throw new Exception($response->toException()->getMessage());
@@ -62,7 +62,7 @@ class TrackingMore
     public function getAllCourier(): array
     {
         /** @var Response $response */
-        $response = $this->client->get(self::COURIER_PATH . '/all');
+        $response = $this->client->get(self::COURIER_PATH.'/all');
 
         if ($response->failed()) {
             throw new Exception($response->toException()->getMessage());
@@ -79,7 +79,7 @@ class TrackingMore
     public function detectCourier(string $trackingNumber): array
     {
         /** @var Response $response */
-        $response = $this->client->post(self::COURIER_PATH . '/detect', ['tracking_number' => $trackingNumber]);
+        $response = $this->client->post(self::COURIER_PATH.'/detect', ['tracking_number' => $trackingNumber]);
 
         if ($response->failed()) {
             throw new Exception($response->toException()->getMessage());
@@ -89,8 +89,9 @@ class TrackingMore
     }
 
     /**
-     * @param Response $response
+     * @param  Response  $response
      * @return void
+     *
      * @throws EmptyResponseException
      * @throws Exception
      */
@@ -102,14 +103,14 @@ class TrackingMore
             throw new EmptyResponseException();
         }
 
-        if (!$this->isSuccessful($meta->get('code'))) {
+        if (! $this->isSuccessful($meta->get('code'))) {
             throw new Exception($meta['message'] ?? 'TrackingMore request failed.');
         }
     }
 
     /**
-     * @param Response $response
-     * @param string $key
+     * @param  Response  $response
+     * @param  string  $key
      * @return array
      */
     protected function getResponseData(Response $response, string $key = 'data'): array

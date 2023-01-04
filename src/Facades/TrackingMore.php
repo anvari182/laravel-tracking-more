@@ -3,10 +3,11 @@
 namespace Anvari182\TrackingMore\Facades;
 
 use Anvari182\TrackingMore\Data\TrackingData;
+use Cerbero\LaravelDto\Dto;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static array createTracking(TrackingData $data)
+ * @method static array createTracking(TrackingData|Dto $data)
  * @method static array getAllCourier()
  * @method static array detectCourier(string $trackingNumber)
  */

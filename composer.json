@@ -54,7 +54,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "TrackingMoreServiceProvider"
+                "Anvari182\\LaravelTrackingMore\\TrackingMoreServiceProvider"
             ],
             "aliases": {
                 "TrackingMore": "Anvari182\\LaravelTrackingMore\\Facades\\TrackingMore"

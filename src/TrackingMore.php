@@ -6,6 +6,7 @@ use Anvari182\TrackingMore\Concerns\ProcessResponse;
 use Anvari182\TrackingMore\Data\TrackingData;
 use Anvari182\TrackingMore\Exceptions\EmptyResponseException;
 use Anvari182\TrackingMore\Exceptions\MissingArgumentException;
+use Cerbero\LaravelDto\Dto;
 use Exception;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
@@ -40,6 +41,12 @@ class TrackingMore
     }
 
     /**
+     * Create a tracking.
+     *
+     * @param  TrackingData  $data
+     * @return array
+     *
+     * @throws EmptyResponseException
      * @throws Exception
      */
     public function createTracking(TrackingData $data): array
@@ -57,6 +64,123 @@ class TrackingMore
     }
 
     /**
+     * Create multiple trackings (Max. 40 tracking numbers create in one call).
+     *
+     * @param  array<int, TrackingData|Dto>  $trackingData
+     * @return array
+     *
+     * @throws EmptyResponseException
+     * @throws Exception
+     */
+    public function createMultipleTracking(array $trackingData): array
+    {
+        if (count($trackingData) > 40) {
+            throw new Exception('Max 40 tracking numbers are allowed!');
+        }
+
+        $data = [];
+
+        foreach ($trackingData as $tracking) {
+            $data[] = $tracking->toArray();
+        }
+
+        $response = $this->client->post(self::TRACKING_PATH.'/batch', $data);
+
+        if ($response->failed()) {
+            throw new Exception($response->toException()->getMessage());
+        }
+
+        $this->processMeta($response);
+
+        return $this->getResponseData($response);
+    }
+
+    /**
+     * Get tracking results of multiple trackings.
+     *
+     * @throws Exception
+     */
+    public function getTrackingResults(): array
+    {
+        $response = $this->client->get(self::TRACKING_PATH.'/get');
+
+        if ($response->failed()) {
+            throw new Exception($response->toException()->getMessage());
+        }
+
+        $this->processMeta($response);
+
+        return $this->getResponseData($response);
+    }
+
+    /**
+     * Update a tracking by ID.
+     *
+     * @param  string  $id
+     * @return array
+     *
+     * @throws EmptyResponseException
+     * @throws Exception
+     */
+    public function updateTrackingById(string $id): array
+    {
+        $response = $this->client->put(self::TRACKING_PATH.'/update/'.$id);
+
+        if ($response->failed()) {
+            throw new Exception($response->toException()->getMessage());
+        }
+
+        $this->processMeta($response);
+
+        return $this->getResponseData($response);
+    }
+
+    /**
+     * Delete a tracking by ID.
+     *
+     * @throws EmptyResponseException
+     * @throws Exception
+     */
+    public function deleteTrackingById(string $id): array
+    {
+        $response = $this->client->delete(self::TRACKING_PATH.'/delete/'.$id);
+
+        if ($response->failed()) {
+            throw new Exception($response->toException()->getMessage());
+        }
+
+        $this->processMeta($response);
+
+        return $this->getResponseData($response);
+    }
+
+    /**
+     * Retrack expired tracking by ID.
+     *
+     * @param  string  $id
+     * @return array
+     *
+     * @throws EmptyResponseException
+     */
+    public function retrackExpiredTracking(string $id): array
+    {
+        $response = $this->client->post(self::TRACKING_PATH.'/retrack/'.$id);
+
+        if ($response->failed()) {
+            throw new Exception($response->toException()->getMessage());
+        }
+
+        $this->processMeta($response);
+
+        return $this->getResponseData($response);
+    }
+
+    /**
+     * Return a list of all supported couriers.
+     *
+     * @return array
+     *
+     * @throws EmptyResponseException
      * @throws Exception
      */
     public function getAllCourier(): array
@@ -74,6 +198,11 @@ class TrackingMore
     }
 
     /**
+     * Return a list of matched couriers based on submitted tracking number.
+     *
+     * @param  string  $trackingNumber
+     * @return array
+     *
      * @throws Exception
      */
     public function detectCourier(string $trackingNumber): array

@@ -1,6 +1,6 @@
 # Laravel TrackingMore
 
-A Laravel package for using [TrackingMore API](https://www.trackingmore.com/docs/trackingmore/).
+A Laravel package for managing [TrackingMore API](https://www.trackingmore.com/docs/trackingmore/).
 
 ## Version support
 

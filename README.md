@@ -1,4 +1,4 @@
-# laravel-tracking-more
+# Laravel TrackingMore
 
 A Laravel package for using [TrackingMore API](https://www.trackingmore.com/docs/trackingmore/).
 
@@ -20,7 +20,7 @@ Add `TRACKING_MORE_API_KEY` and `TRACKING_MORE_BASE_URL` in your .env file.
 
 You can find the API endpoint (base url) [here](https://www.trackingmore.com/docs/trackingmore/) and get API key [here](https://admin.trackingmore.com/developer/apikey)
 
-## Basic Usage
+## Usage
 
 Inject the Tracking or Courier where you need:
 

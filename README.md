@@ -2,6 +2,8 @@
 
 A Laravel package for managing [TrackingMore API](https://www.trackingmore.com/docs/trackingmore/).
 
+TrackingMore helps eCommerce businesses to update and manage their shipment with efficiency.
+
 ## Version support
 
 - **PHP**: 8.0

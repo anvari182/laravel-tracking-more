@@ -4,6 +4,8 @@ namespace Anvari182\TrackingMore\Concerns;
 
 use Anvari182\TrackingMore\Exceptions\EmptyResponseException;
 use Exception;
+use GuzzleHttp\Promise\PromiseInterface;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 
 trait ProcessResponse
@@ -51,5 +53,20 @@ trait ProcessResponse
         }
 
         return $data->toArray();
+    }
+
+    /**
+     * @throws RequestException
+     * @throws EmptyResponseException
+     */
+    public function processResponse(Response|PromiseInterface $response): array
+    {
+        if ($response->failed()) {
+            $response->throw();
+        }
+
+        $this->processMeta($response);
+
+        return $this->getResponseData($response);
     }
 }

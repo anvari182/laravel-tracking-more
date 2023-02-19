@@ -8,6 +8,7 @@ use Anvari182\TrackingMore\Exceptions\EmptyResponseException;
 use Anvari182\TrackingMore\HttpClient;
 use Cerbero\LaravelDto\Dto;
 use Exception;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 
 class Tracking
@@ -29,13 +30,7 @@ class Tracking
         /** @var Response $response */
         $response = $this->httpClient->request()->post(self::TRACKING_PATH.'/create', $data->toArray());
 
-        if ($response->failed()) {
-            throw new Exception($response->toException()->getMessage());
-        }
-
-        $this->processMeta($response);
-
-        return $this->getResponseData($response);
+        return $this->processResponse($response);
     }
 
     /**
@@ -56,13 +51,7 @@ class Tracking
 
         $response = $this->httpClient->request()->post(self::TRACKING_PATH.'/batch', $data);
 
-        if ($response->failed()) {
-            throw new Exception($response->toException()->getMessage());
-        }
-
-        $this->processMeta($response);
-
-        return $this->getResponseData($response);
+        return $this->processResponse($response);
     }
 
     /**
@@ -73,13 +62,7 @@ class Tracking
     {
         $response = $this->httpClient->request()->get(self::TRACKING_PATH.'/get');
 
-        if ($response->failed()) {
-            throw new Exception($response->toException()->getMessage());
-        }
-
-        $this->processMeta($response);
-
-        return $this->getResponseData($response);
+        return $this->processResponse($response);
     }
 
     /**
@@ -90,41 +73,27 @@ class Tracking
     {
         $response = $this->httpClient->request()->put(self::TRACKING_PATH.'/update/'.$id);
 
-        if ($response->failed()) {
-            throw new Exception($response->toException()->getMessage());
-        }
-
-        $this->processMeta($response);
-
-        return $this->getResponseData($response);
+        return $this->processResponse($response);
     }
 
     /**
-     * @throws EmptyResponseException
+     * @throws EmptyResponseException|RequestException
      */
     public function deleteTrackingById(string $id): array
     {
         $response = $this->httpClient->request()->delete(self::TRACKING_PATH.'/delete/'.$id);
 
-        if ($response->failed()) {
-            throw new Exception($response->toException()->getMessage());
-        }
-
-        $this->processMeta($response);
-
-        return $this->getResponseData($response);
+        return $this->processResponse($response);
     }
 
-    public function retrackExpiredTracking(string $id): array
+    /**
+     * @throws RequestException
+     * @throws EmptyResponseException
+     */
+    public function reTrackExpiredTracking(string $id): array
     {
         $response = $this->httpClient->request()->post(self::TRACKING_PATH.'/retrack/'.$id);
 
-        if ($response->failed()) {
-            throw new Exception($response->toException()->getMessage());
-        }
-
-        $this->processMeta($response);
-
-        return $this->getResponseData($response);
+        return $this->processResponse($response);
     }
 }

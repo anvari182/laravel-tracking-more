@@ -3,8 +3,10 @@
 namespace Anvari182\TrackingMore\TrackingMoreRequests;
 
 use Anvari182\TrackingMore\Concerns\ProcessResponse;
+use Anvari182\TrackingMore\Exceptions\EmptyResponseException;
 use Anvari182\TrackingMore\HttpClient;
 use Exception;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 
 class Courier
@@ -29,14 +31,15 @@ class Courier
         );
 
         if ($response->failed()) {
-            throw new Exception($response->toException()->getMessage());
+            $response->throw();
         }
 
-        return $this->getResponseData($response);
+        return $this->getResponseData(response: $response);
     }
 
     /**
-     * @throws Exception
+     * @throws RequestException
+     * @throws EmptyResponseException
      */
     public function getAllCourier(): array
     {
@@ -44,11 +47,11 @@ class Courier
         $response = $this->httpClient->request()->get(self::COURIER_PATH.'/all');
 
         if ($response->failed()) {
-            throw new Exception($response->toException()->getMessage());
+            $response->throw();
         }
 
         $this->processMeta($response);
 
-        return $this->getResponseData($response, 'couriers');
+        return $this->getResponseData(response: $response, key: 'couriers');
     }
 }

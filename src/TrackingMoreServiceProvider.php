@@ -4,6 +4,7 @@ namespace Anvari182\TrackingMore;
 
 use Anvari182\TrackingMore\TrackingMoreRequests\Courier;
 use Anvari182\TrackingMore\TrackingMoreRequests\Tracking;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,11 +20,16 @@ class TrackingMoreServiceProvider extends ServiceProvider
             apiKey:         config('trackingmore.api_key')
         );
 
-        $this->app->bind(TrackingMore::class, function () use ($httpClient) {
-            $tracking = new Tracking(httpClient: $httpClient);
-            $courier = new Courier(httpClient: $httpClient);
+        $this->app->bind(Tracking::class, function () use ($httpClient) {
+            return new Tracking($httpClient);
+        });
 
-            return new TrackingMore(tracking: $tracking, courier: $courier);
+        $this->app->bind(Courier::class, function () use ($httpClient) {
+            return new Courier($httpClient);
+        });
+
+        $this->app->bind(TrackingMore::class, function (Application $app) {
+            return new TrackingMore(tracking: $app->make(Tracking::class), courier: $app->make(Courier::class));
         });
     }
 

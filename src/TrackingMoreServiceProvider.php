@@ -2,6 +2,8 @@
 
 namespace Anvari182\TrackingMore;
 
+use Anvari182\TrackingMore\TrackingMoreRequests\Courier;
+use Anvari182\TrackingMore\TrackingMoreRequests\Tracking;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\ServiceProvider;
 
@@ -11,12 +13,17 @@ class TrackingMoreServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/trackingmore.php', 'trackingmore');
 
-        $this->app->bind(TrackingMore::class, function () {
-            return new TrackingMore(
-                new PendingRequest(),
-                config('trackingmore.base_url'),
-                config('trackingmore.api_key')
-            );
+        $httpClient = new HttpClient(
+            pendingRequest: new PendingRequest(),
+            baseUrl:        config('trackingmore.base_url'),
+            apiKey:         config('trackingmore.api_key')
+        );
+
+        $this->app->bind(TrackingMore::class, function () use ($httpClient) {
+            $tracking = new Tracking(httpClient: $httpClient);
+            $courier = new Courier(httpClient: $httpClient);
+
+            return new TrackingMore(tracking: $tracking, courier: $courier);
         });
     }
 

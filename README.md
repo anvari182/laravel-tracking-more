@@ -22,3 +22,35 @@ You can find the API endpoint (base url) [here](https://www.trackingmore.com/doc
 
 ## Basic Usage
 
+Inject the Tracking or Courier where you need:
+
+```php
+
+use Anvari182\TrackingMore\TrackingMoreRequests\Tracking;
+use Anvari182\TrackingMore\TrackingMoreRequests\Courier;
+
+public function __construct(private Tracking $tracking, private Courier $courier)
+{
+}
+
+public function index()
+{
+   // Create a tracking
+   $this->tracking->createTracking(TrackingData::from(['trackingNumber' => 'xyz1234']));
+   
+   // Get all couriers
+   $couriers = $this->courier->getAllCourier();
+}
+```
+
+Or use it with Facade:
+
+```php
+use Anvari182\TrackingMore\Facades\TrackingMore;
+
+// Create a tracking
+TrackingMore::tracking()->createTracking(TrackingData::from(['trackingNumber' => 'xyz1234']))
+
+ // Get all couriers
+$couriers = TrackingMore::courier()->getAllCourier();
+```

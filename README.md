@@ -6,8 +6,8 @@ TrackingMore helps eCommerce businesses to update and manage their shipment with
 
 ## Version support
 
-- **PHP**: 8.0
-- **Laravel**: 9.0, 10.0
+- **PHP**: 8.0 | 8.1 | 8.2
+- **Laravel**: 9.0 | 10.0
 
 ## Installation
 

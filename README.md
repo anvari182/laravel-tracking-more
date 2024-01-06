@@ -18,9 +18,15 @@ from [Packagist](https://packagist.org/packages/anvari182/laravel-tracking-more)
 $ composer require anvari182/laravel-tracking-more
 ```
 
+## Configuration
+
 Add `TRACKING_MORE_API_KEY` in your .env file.
 
-You can get API key [here](https://admin.trackingmore.com/developer/apikey)
+Get your TrackingMore API key from [TrackingMore](https://admin.trackingmore.com/developer/apikey)
+
+```php
+php artisan vendor:publish --provider="Anvari182\TrackingMore\TrackingMoreServiceProvider" --tag="config"
+```
 
 ## Usage
 
@@ -110,3 +116,14 @@ Return a list of all supported couriers.
 ```php
 TrackingMore::courier()->getAll()
 ```
+
+## Dependencies
+[TrackingMore SDK](https://github.com/TrackingMore-API/trackingmore-sdk-php) v.1.0.0
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.

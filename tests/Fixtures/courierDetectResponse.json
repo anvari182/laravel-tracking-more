@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "code": 200,
+    "message": "Request response is successful"
+  },
+  "data": [
+    {
+      "courier_code": "thecourierguy-co",
+      "courier_name": "The Courier Guy Co",
+      "courier_country_iso2": "ZA",
+      "courier_url": "https:\/\/portal.thecourierguy.co.za",
+      "courier_phone": "010 222 2300",
+      "courier_type": "express",
+      "tracking_required_fields": [],
+      "optional_fields": [],
+      "default_language": "en",
+      "support_language": [],
+      "courier_logo": "\/\/s.trackingmore.com\/images\/icons\/express\/thecourierguy-co.png"
+    }
+  ]
+}

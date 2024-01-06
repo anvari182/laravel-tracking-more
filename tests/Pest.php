@@ -19,8 +19,3 @@ function getApiToken(): string
 {
     return env('TRACKING_MORE_API_KEY');
 }
-
-function getBaseUrl(): string
-{
-    return env('TRACKING_MORE_BASE_URL');
-}

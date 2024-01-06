@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "code": 200,
+    "message": "string"
+  },
+  "data": [
+    {
+      "courier_url": "https://www.tuffnells.co.uk/track-and-trace/",
+      "courier_code": "tuffnells",
+      "courier_logo": "string",
+      "courier_name": "Tuffnells",
+      "courier_type": "express",
+      "courier_phone": "1-800-275-8777",
+      "optional_fields": [
+        "tracking_account_number"
+      ],
+      "default_language": "en",
+      "support_language": [
+        "string"
+      ],
+      "courier_country_iso2": "EN",
+      "tracking_required_fields": [
+        "tracking_postal_code"
+      ]
+    }
+  ]
+}

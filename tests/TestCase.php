@@ -4,6 +4,7 @@ namespace Anvari182\TrackingMore\Tests;
 
 use Anvari182\TrackingMore\TrackingMoreServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\LaravelData\LaravelDataServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -15,6 +16,7 @@ class TestCase extends Orchestra
     {
         return [
             TrackingMoreServiceProvider::class,
+            LaravelDataServiceProvider::class,
         ];
     }
 

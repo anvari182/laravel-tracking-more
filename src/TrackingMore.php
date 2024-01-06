@@ -2,8 +2,8 @@
 
 namespace Anvari182\TrackingMore;
 
-use Anvari182\TrackingMore\TrackingMoreRequests\Courier;
-use Anvari182\TrackingMore\TrackingMoreRequests\Tracking;
+use TrackingMore\Couriers as Courier;
+use TrackingMore\Trackings as Tracking;
 
 class TrackingMore
 {
@@ -19,6 +19,9 @@ class TrackingMore
         return $this->courier;
     }
 
+    /**
+     * @return Tracking
+     */
     public function tracking(): Tracking
     {
         return $this->tracking;

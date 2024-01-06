@@ -2,42 +2,31 @@
 
 namespace Anvari182\TrackingMore\TrackingMoreRequests;
 
-use Anvari182\TrackingMore\Concerns\ProcessResponse;
 use Anvari182\TrackingMore\Data\TrackingData;
-use Anvari182\TrackingMore\Exceptions\EmptyResponseException;
-use Anvari182\TrackingMore\HttpClient;
-use Cerbero\LaravelDto\Dto;
+use Anvari182\TrackingMore\Helpers\ArrayHelper;
 use Exception;
-use Illuminate\Http\Client\RequestException;
-use Illuminate\Http\Client\Response;
+use TrackingMore\TrackingMoreException;
+use TrackingMore\Trackings;
 
-class Tracking
+class Tracking extends Trackings
 {
-    use ProcessResponse;
-
-    protected const TRACKING_PATH = 'trackings';
-
-    public function __construct(private HttpClient $httpClient)
+    /**
+     * @param TrackingData $data
+     * @return array
+     * @throws TrackingMoreException
+     */
+    public function create(TrackingData $data): array
     {
+        return $this->createTracking(ArrayHelper::camelToSnakeKeys($data->toArray()));
     }
 
     /**
-     * @throws EmptyResponseException
+     * @param array $trackingData
+     * @return array
+     * @throws TrackingMoreException
      * @throws Exception
      */
-    public function createTracking(TrackingData|Dto $data): array
-    {
-        /** @var Response $response */
-        $response = $this->httpClient->request()->post(self::TRACKING_PATH.'/create', $data->toArray());
-
-        return $this->processResponse($response);
-    }
-
-    /**
-     * @throws EmptyResponseException
-     * @throws Exception
-     */
-    public function createMultipleTracking(array $trackingData): array
+    public function createMultiple(array $trackingData): array
     {
         if (count($trackingData) > 40) {
             throw new Exception('Max 40 tracking numbers are allowed!');
@@ -49,51 +38,45 @@ class Tracking
             $data[] = $tracking->toArray();
         }
 
-        $response = $this->httpClient->request()->post(self::TRACKING_PATH.'/batch', $data);
-
-        return $this->processResponse($response);
+        return $this->batchCreateTrackings($data);
     }
 
     /**
-     * @throws EmptyResponseException
-     * @throws Exception
+     * @return array
      */
-    public function getTrackingResults(): array
+    public function getResults(): array
     {
-        $response = $this->httpClient->request()->get(self::TRACKING_PATH.'/get');
-
-        return $this->processResponse($response);
+        return $this->getTrackingResults();
     }
 
     /**
-     * @throws EmptyResponseException
-     * @throws Exception
+     * @param string $id
+     * @param array $params
+     * @return array
+     * @throws TrackingMoreException
      */
-    public function updateTrackingById(string $id): array
+    public function updateById(string $id, array $params): array
     {
-        $response = $this->httpClient->request()->put(self::TRACKING_PATH.'/update/'.$id);
-
-        return $this->processResponse($response);
+        return $this->updateTrackingByID($id, $params);
     }
 
     /**
-     * @throws EmptyResponseException|RequestException
+     * @param string $id
+     * @return array
+     * @throws TrackingMoreException
      */
-    public function deleteTrackingById(string $id): array
+    public function deleteById(string $id): array
     {
-        $response = $this->httpClient->request()->delete(self::TRACKING_PATH.'/delete/'.$id);
-
-        return $this->processResponse($response);
+        return $this->deleteTrackingByID($id);
     }
 
     /**
-     * @throws RequestException
-     * @throws EmptyResponseException
+     * @param string $id
+     * @return array
+     * @throws TrackingMoreException
      */
-    public function reTrackExpiredTracking(string $id): array
+    public function retrackByID(string $id): array
     {
-        $response = $this->httpClient->request()->post(self::TRACKING_PATH.'/retrack/'.$id);
-
-        return $this->processResponse($response);
+        return $this->retrackTrackingByID($id);
     }
 }

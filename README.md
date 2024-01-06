@@ -4,6 +4,8 @@ A Laravel package for managing [TrackingMore API](https://www.trackingmore.com/d
 
 TrackingMore helps eCommerce businesses to update and manage their shipment with efficiency.
 
+This package is a wrapper of [TrackingMore API PHP SDK](https://github.com/TrackingMore-API/trackingmore-sdk-php) for Laravel.
+
 ## Version support
 
 - **PHP**: 8.0 | 8.1 | 8.2
@@ -45,10 +47,10 @@ public function __construct(private Tracking $tracking, private Courier $courier
 public function index()
 {
    // Create a tracking
-   $this->tracking->create(new TrackingData(trackingNumber: 'xyz123', courierCode: 'ups'));
+   $this->tracking->createTracking(['tracking_number' => 'xyz123', 'courier_code' => 'ups']);
    
    // Get all couriers
-   $couriers = $this->courier->getAllCourier();
+   $couriers = $this->courier->getAllCouriers();
 }
 ```
 
@@ -58,27 +60,27 @@ Or use it with Facade:
 use Anvari182\TrackingMore\Facades\TrackingMore;
 
 // Create a tracking
-TrackingMore::tracking()->create(new TrackingData(trackingNumber: 'xyz123', courierCode: 'ups'))
+TrackingMore::tracking()->createTracking(['tracking_number' => 'xyz123', 'courier_code' => 'ups'])
 
  // Get all couriers
-$couriers = TrackingMore::courier()->getAllCourier();
+$couriers = TrackingMore::courier()->getAllCouriers();
 ```
 
 ## Tracking
 ##### Create a tracking
 ```php
-TrackingMore::tracking()->create(new TrackingData(trackingNumber: 'xyz123', courierCode: 'ups'))
+TrackingMore::tracking()->createTracking(['tracking_number' => 'xyz123', 'courier_code' => 'ups'])
 ```
 
 ##### Get results
 ```php
-TrackingMore::tracking()->getResults()
+TrackingMore::tracking()->getTrackingResults()
 ```
 
 ##### Create trackings
 Create multiple trackings (Max. 40 tracking numbers create in one call).
 ```php
- TrackingMore::tracking()->createMultiple([
+ TrackingMore::tracking()->batchCreateTrackings([
         ['tracking_number' => 'xyz1234', 'courier_code' => 'ups'],
         ['tracking_number' => 'xyz1235', 'courier_code' => 'ups'],
         ['tracking_number' => 'xyz1236', 'courier_code' => 'ups'],
@@ -88,19 +90,19 @@ Create multiple trackings (Max. 40 tracking numbers create in one call).
 ##### Update a tracking by ID
 Tracking ID
 ```php
-TrackingMore::tracking()->updateById('13123213213213', ['note' => 'New test order note', 'customer_name'=>'New name'])
+TrackingMore::tracking()->updateTrackingByID('13123213213213', ['note' => 'New test order note', 'customer_name'=>'New name'])
 ```
 
 ##### Delete a tracking by ID
 Tracking ID
 ```php
-TrackingMore::tracking()->deleteById('13123213213213')
+TrackingMore::tracking()->deleteTrackingByID('13123213213213')
 ```
 
 ##### Retrack an expired tracking by ID
 Tracking ID
 ```php
-TrackingMore::tracking()->retrackByID('13123213213213')
+TrackingMore::tracking()->retrackTrackingByID('13123213213213')
 ```
 
 ## Courier
@@ -108,17 +110,17 @@ TrackingMore::tracking()->retrackByID('13123213213213')
 ##### Detect courier
 Return a list of matched couriers based on submitted tracking number.
 ```php
-TrackingMore::courier()->detectCourier(['tracking_number' => '9261290312833844954982'])
+TrackingMore::courier()->detect(['tracking_number' => '9261290312833844954982'])
 ```
 
 ##### Get all couriers
 Return a list of all supported couriers.
 ```php
-TrackingMore::courier()->getAll()
+TrackingMore::courier()->getAllCouriers()
 ```
 
 ## Dependencies
-[TrackingMore SDK](https://github.com/TrackingMore-API/trackingmore-sdk-php) v.1.0.0
+[TrackingMore API PHP SDK](https://github.com/TrackingMore-API/trackingmore-sdk-php) v.1.0.0
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

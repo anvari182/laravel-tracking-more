@@ -2,24 +2,26 @@
 
 namespace Anvari182\TrackingMore\TrackingMoreRequests;
 
-use Exception;
 use TrackingMore\Couriers;
+use TrackingMore\Interfaces\CouriersInterface;
+use Trackingmore\TrackingMoreException;
 
-class Courier extends Couriers
+class Courier implements CouriersInterface
 {
-    /**
-     * @throws Exception
-     */
-    public function detectCourier(string $trackingNumber): array
+    public function __construct(private Couriers $couriers)
     {
-        return $this->detect(['tracking_number' => $trackingNumber]);
+    }
+
+    public function getAllCouriers(): array
+    {
+        return $this->couriers->getAllCouriers();
     }
 
     /**
-     * @return array
+     * @throws TrackingMoreException
      */
-    public function getAll(): array
+    public function detect($params = []): array
     {
-        return $this->getAllCouriers();
+        return $this->couriers->detect($params);
     }
 }

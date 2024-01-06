@@ -2,8 +2,8 @@
 
 namespace Anvari182\TrackingMore;
 
-use TrackingMore\Couriers as Courier;
-use TrackingMore\Trackings as Tracking;
+use Anvari182\TrackingMore\TrackingMoreRequests\Courier;
+use Anvari182\TrackingMore\TrackingMoreRequests\Tracking;
 
 class TrackingMore
 {

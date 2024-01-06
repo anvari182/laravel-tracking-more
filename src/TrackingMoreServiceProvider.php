@@ -6,6 +6,8 @@ use Anvari182\TrackingMore\TrackingMoreRequests\Courier;
 use Anvari182\TrackingMore\TrackingMoreRequests\Tracking;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use TrackingMore\Couriers;
+use TrackingMore\Trackings;
 
 class TrackingMoreServiceProvider extends ServiceProvider
 {
@@ -16,11 +18,11 @@ class TrackingMoreServiceProvider extends ServiceProvider
         $apiKey = config('trackingmore.api_key');
 
         $this->app->bind(Tracking::class, function () use ($apiKey) {
-            return new Tracking($apiKey);
+            return new Tracking(new Trackings($apiKey));
         });
 
         $this->app->bind(Courier::class, function () use ($apiKey) {
-            return new Courier($apiKey);
+            return new Courier(new Couriers($apiKey));
         });
 
         $this->app->bind(TrackingMore::class, function (Application $app) {

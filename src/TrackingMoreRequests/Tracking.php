@@ -2,81 +2,58 @@
 
 namespace Anvari182\TrackingMore\TrackingMoreRequests;
 
-use Anvari182\TrackingMore\Data\TrackingData;
-use Anvari182\TrackingMore\Helpers\ArrayHelper;
-use Exception;
-use TrackingMore\TrackingMoreException;
+use TrackingMore\Interfaces\TrackingsInterface;
+use Trackingmore\TrackingMoreException;
 use TrackingMore\Trackings;
 
-class Tracking extends Trackings
+class Tracking implements TrackingsInterface
 {
-    /**
-     * @param TrackingData $data
-     * @return array
-     * @throws TrackingMoreException
-     */
-    public function create(TrackingData $data): array
+    public function __construct(private Trackings $trackings)
     {
-        return $this->createTracking(ArrayHelper::camelToSnakeKeys($data->toArray()));
     }
 
     /**
-     * @param array $trackingData
-     * @return array
      * @throws TrackingMoreException
-     * @throws Exception
      */
-    public function createMultiple(array $trackingData): array
+    public function createTracking($params = []): array
     {
-        if (count($trackingData) > 40) {
-            throw new Exception('Max 40 tracking numbers are allowed!');
-        }
+        return $this->trackings->createTracking($params);
+    }
 
-        $data = [];
-
-        foreach ($trackingData as $tracking) {
-            $data[] = $tracking->toArray();
-        }
-
-        return $this->batchCreateTrackings($data);
+    public function getTrackingResults($params = []): array
+    {
+        return $this->trackings->getTrackingResults();
     }
 
     /**
-     * @return array
+     * @throws TrackingMoreException
      */
-    public function getResults(): array
+    public function batchCreateTrackings($params = []): array
     {
-        return $this->getTrackingResults();
+        return $this->trackings->batchCreateTrackings($params);
     }
 
     /**
-     * @param string $id
-     * @param array $params
-     * @return array
      * @throws TrackingMoreException
      */
-    public function updateById(string $id, array $params): array
+    public function updateTrackingByID($idString = '', $params = []): array
     {
-        return $this->updateTrackingByID($id, $params);
+        return $this->trackings->updateTrackingByID($idString, $params);
     }
 
     /**
-     * @param string $id
-     * @return array
      * @throws TrackingMoreException
      */
-    public function deleteById(string $id): array
+    public function deleteTrackingByID($idString = ''): array
     {
-        return $this->deleteTrackingByID($id);
+        return $this->trackings->deleteTrackingByID($idString);
     }
 
     /**
-     * @param string $id
-     * @return array
      * @throws TrackingMoreException
      */
-    public function retrackByID(string $id): array
+    public function retrackTrackingByID($idString = ''): array
     {
-        return $this->retrackTrackingByID($id);
+        return $this->trackings->retrackTrackingByID($idString);
     }
 }

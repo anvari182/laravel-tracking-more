@@ -126,4 +126,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/anvari182/laravel-tracking-more/blob/feature/use-trackingmore-sdk/LICENSE) file for details.

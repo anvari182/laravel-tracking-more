@@ -57,7 +57,7 @@ class Tracking extends Trackings
      */
     public function updateById(string $id, array $params): array
     {
-        return $this->updateTrackingByID($id);
+        return $this->updateTrackingByID($id, $params);
     }
 
     /**
